@@ -1,0 +1,32 @@
+#!/bin/bash
+
+./bin/realsense_rgbd \
+    ./ORB-SLAM3/Vocabulary/ORBvoc.txt \
+    ./cfg/ORB_SLAM3/RGB-D/RealCamera/realsense_d455_rgbd.yaml \
+    ./cfg/gaussian_mapper/RGB-D/RealCamera/realsense_rgbd.yaml \
+    ./results/realsense_d455_rgbd
+
+chmod +x scripts/realsense_d455.sh
+./scripts/realsense_d455.sh
+
+realsense-viewer
+
+# Photo-SLAM
+
+rm -r build
+mkdir build
+cd build
+cmake .. 
+make -j8
+cd ..
+
+
+
+# Photo-SLAM
+echo "Building Photo-SLAM ..."
+cd ../..
+mkdir build
+cd build
+cmake .. -DTorch_DIR=/home/hanglok/HXJ/Photo-SLAM/libtorch/share/cmake/Torch -DOpenCV_DIR=/home/hanglok/HXJ/Photo-SLAM/opencv/opencv-4.7.0/cmake
+make -j8
+
